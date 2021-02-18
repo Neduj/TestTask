@@ -1,27 +1,70 @@
-# FrontendTest
+# Калькулятор кредита
+## Требования
+Необходимо реализовать [калькулятор подбора условий кредита](https://www.figma.com/file/t8vqTEw8aUWOR4aINWc0A9/Untitled?node-id=0%3A1):
+* Имитацию сервера, которая находится в `backend.service.ts`, редактировать нельзя.
+* Нужно использовать Angular Material и Flex Layout.
+* Компоненты калькулятора должны быть гибкими, то есть не зависеть от контента. Не исключены следующие сценарии:
+  * Не 2, а 4 слайдера;
+  * Заголовок не `Сумма кредита`, а `<mat-icon>formula</mat-icon>Сумма кредита`, при том `Термин кредита` остается без изменений;
+  * Выбор банковской карты под слайдерами;
+  * и т.д. (сценарии выше реализовывать не нужно, однако их стоит учитывать при разработке компонентов, то есть использовать Content Projection).
+* Не должно быть утечек памяти.
+* При изменении одного из ползунков слайдера, на сервер должны отправляться и `amount`, и `term`.
+* При нажатии на кнопки `-` или `+` по краям от калькулятора, значение слайдера нужно увеличивать на заданный `step`.
+* Стилизация калькулятора на ваше усмотрение.
+* Репозиторий должен быть форкнут, после чего нужно создать pull request на готовое решение.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.1.
+## Необязательные требования (будут плюсом при выполнении)
+* Использовать TypeScript Strict Mode (включен по умолчанию).
+* Все компоненты должны иметь `ChangeDetectionStrategy.OnPush`.
+* Нельзя допускать, чтобы запросы выполнялись чаще, чем раз в 250мс (выполнение отображается в консоли).
+* Помимо данных, в ответе от сервера приходит булево значение `loading`:
+  * При `loading === true`, в `getDetails` нужно показывать прелоадер на всём калькуляторе;
+  * При `loading === true`, в `calculate` нужно показывать прелоадер только поверх секции информации о кредите (`Дата возврата`, `Тело кредита` etc.).
+* Реализовать адаптивную версию калькулятора (для мобильных устройств).
+    
+## API
+С моделью данных можно ознакомиться в `backend.service.ts`.
 
-## Development server
+Примерный процесс работы с сервером:
+* Вытягиваются настройки с помощью `getDetails`;
+* Сразу после получения данных от `getDetails`, а также при каждом изменении ползунка слайдера, вызывается `calculate`.
+* Данные из `calculate` отображаются справа от слайдеров (некоторые из них нужно высчитывать самостоятельно).
+Примерная разметка калькулятора:
+```html
+<app-calculator>
+    <app-calculator-header>
+        <app-calculator-title>...</app-calculator-title>
+    </app-calculator-header>
+    <app-calculator-content>
+        <app-calculator-main>
+            <app-calculator-slider>...</app-calculator-slider>
+            <app-calculator-slider>...</app-calculator-slider>
+        </app-calculator-main>
+        <app-calculator-aside>
+            <app-calculator-details>
+                <ng-template let-key let-value>...</ng-template>
+            </app-calculator-details>
+        </app-calculator-aside>
+    </app-calculator-content>
+    <app-calculator-actions>
+        <button>...</button>
+    </app-calculator-actions>
+</app-calculator>
+```
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Глоссарий
+### Сумма кредита
+Сумма, которую клиент хочет получить.
+### Термин кредита
+Количество дней, начиная с сегодняшнего, в течении которого клиент обязуется погасить кредит (сумма + проценты).
+### Дата возврата
+Дата (сегодня + термин кредита), до которого клиент обязуется погасить кредит (сумма + проценты).
+### Тело кредита
+То же, что и 'Сумма кредита'.
+### Проценты
+Комиссия за услуги. 
+### К возврату
+Сумма, которую клиент обязуется погасить до наступления даты возврата (сумма + проценты).
+### multiplier
+Множитель, на который перемножается сумма кредита, чтобы получить проценты.
