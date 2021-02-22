@@ -1,0 +1,27 @@
+@media (max-width: 375px) {
+  .calculator {
+    &__container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &__content {
+      width: 300px;
+    }
+  }
+}
+
+@media (max-width: 320px) {
+  .calculator {
+    &__container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &__content {
+      width: 270px;
+    }
+  }
+}

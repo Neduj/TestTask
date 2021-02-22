@@ -1,0 +1,15 @@
+.app {
+  &__container {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__calculator {
+    margin-top: 65px;
+    &__actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}

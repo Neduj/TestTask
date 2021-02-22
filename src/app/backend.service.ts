@@ -116,10 +116,9 @@ const calculateMultiplier = (amount: number, term: number): number | never => {
 };
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BackendService {
-
   getDetails(): Observable<FetchResult<CalculatorDetails>> {
     console.log('getDetails call');
     return new Observable((subscriber) => {
@@ -131,32 +130,36 @@ export class BackendService {
         subscriber.next({
           loading: false,
           data: {
-            title: 'Акция к празднику <strong style="color: red">8 марта</strong>!<br><a href="#">ознакомиться</a>',
+            title:
+              'Акция к празднику <strong style="color: red">8 марта</strong>!<br><a href="#">ознакомиться</a>',
             amount: {
               min: 50,
               max: 15000,
               step: 50,
-              value: 15000 / 2
+              value: 15000 / 2,
             },
             term: {
               min: 1,
               max: 30,
               step: 1,
-              value: 30 / 2
-            }
-          }
+              value: 30 / 2,
+            },
+          },
         });
         subscriber.complete();
       }, 1e3);
     });
   }
 
-  calculate({amount, term}: CalculationVariables): Observable<FetchResult<Calculation>> {
+  calculate({
+    amount,
+    term,
+  }: CalculationVariables): Observable<FetchResult<Calculation>> {
     console.log(`calculate call: {amount: ${amount}, term: ${term}}`);
     return new Observable((subscriber) => {
       subscriber.next({
         loading: true,
-        data: null
+        data: null,
       });
       setTimeout(() => {
         subscriber.next({
@@ -164,12 +167,11 @@ export class BackendService {
           data: {
             amount,
             term,
-            multiplier: calculateMultiplier(amount, term)
-          }
+            multiplier: calculateMultiplier(amount, term),
+          },
         });
         subscriber.complete();
       }, 1e3);
     });
   }
-
 }

@@ -1,0 +1,10 @@
+@media screen and (max-width: 375px) {
+  .calculator {
+    &__content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+  }
+}

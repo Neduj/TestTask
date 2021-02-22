@@ -1,0 +1,62 @@
+<div class="app__container">
+  <div
+    class="app__calculator"
+    *ngIf="calculator.data && !calculator.loading; else loadingBlock"
+  >
+    <app-calculator>
+      <app-calculator-header>
+        <app-calculator-title
+          [title]="calculator.data.title"
+        ></app-calculator-title>
+      </app-calculator-header>
+      <app-calculator-content>
+        <app-calculator-main>
+          <app-calculator-slider
+            [sliderOptions]="calculator.data.amount"
+            [label]="{ left: 'Сумма кредита', right: 'гривен' }"
+            (getValue)="getSliderValue((credit.amount = $event))"
+          ></app-calculator-slider>
+          <app-calculator-slider
+            [sliderOptions]="calculator.data.term"
+            [label]="{ left: 'Срок кредита', right: 'дней' }"
+            (getValue)="getSliderValue((credit.term = $event))"
+          ></app-calculator-slider>
+        </app-calculator-main>
+        <mat-divider [vertical]="true"></mat-divider>
+        <app-calculator-aside>
+          <app-calculator-details>
+            <div *ngIf="!credit.loading; else loadingBlock">
+              <table>
+                <tr>
+                  <td>Дата возврата</td>
+                  <td>{{ credit.date }}</td>
+                </tr>
+                <tr>
+                  <td>Тело Кредита</td>
+                  <td>{{ credit.amount }}</td>
+                </tr>
+                <tr>
+                  <td>Проценты</td>
+                  <td>{{ credit.percent | number }}</td>
+                </tr>
+                <tr>
+                  <td>К возвратау</td>
+                  <td>{{ credit.amount + credit.percent! | number }}</td>
+                </tr>
+              </table>
+            </div>
+          </app-calculator-details>
+        </app-calculator-aside>
+      </app-calculator-content>
+      <app-calculator-actions class="app__calculator__actions">
+        <button mat-raised-button color="primary">
+          Получить кредит {{ credit.amount }}
+        </button>
+      </app-calculator-actions>
+    </app-calculator>
+  </div>
+
+  <ng-template #loadingBlock>
+    <mat-spinner></mat-spinner>
+  </ng-template>
+</div>

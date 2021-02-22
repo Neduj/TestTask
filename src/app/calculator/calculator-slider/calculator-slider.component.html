@@ -1,0 +1,20 @@
+<div>
+  <div class="slider__label">
+    <label>
+      {{ label.left }}
+    </label>
+    <label> {{ sliderOptions.value }} {{ label.right }} </label>
+  </div>
+  <div class="slider__content">
+    <button mat-icon-button (click)="onMinus(sliderOptions.value)">-</button>
+    <mat-slider
+      [min]="sliderOptions.min"
+      [max]="sliderOptions.max"
+      [value]="sliderOptions.value"
+      [step]="sliderOptions.step"
+      (input)="onValueChanged($event.value)"
+    >
+    </mat-slider>
+    <button mat-icon-button (click)="onPlus(sliderOptions.value)">+</button>
+  </div>
+</div>

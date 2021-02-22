@@ -1,0 +1,12 @@
+.slider {
+  &__content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__label {
+    display: flex;
+    justify-content: space-between;
+  }
+}
